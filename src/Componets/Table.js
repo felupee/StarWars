@@ -1,11 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
   const { planets } = useContext(PlanetsContext);
-  console.log(planets);
+  const [filterByName, setName] = useState({
+    name: '',
+  });
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setName((prevState) => ({
+      ...prevState,
+      name: value,
+    }));
+  };
+
+  const filtro = planets.filter(
+    (planeta) => planeta.name.includes(filterByName.name),
+  );
+  console.log(filtro);
+
   return (
     <div>
+      <input
+        data-testid="name-filter"
+        type="text"
+        name="pesquisa"
+        value={ filterByName.name }
+        onChange={ handleChange }
+      />
       <table border="10">
         <thead>
           <tr>
@@ -25,7 +47,7 @@ function Table() {
           </tr>
         </thead>
         {
-          planets.map((planeta) => (
+          filtro.map((planeta) => (
             <tbody key={ planeta.name }>
               <tr>
                 <td>{planeta.name}</td>
