@@ -6,6 +6,16 @@ function Table() {
   const [filterByName, setName] = useState({
     name: '',
   });
+  const [filterByNumericValues, setNumericValues] = useState([
+    {
+      column: 'population',
+      comparison: 'maior que',
+      value: 0,
+    },
+  ]);
+  const [aplyFilter, setAplyFilter] = useState([]);
+  const [view, setView] = useState(true);
+
   const handleChange = (event) => {
     const { value } = event.target;
     setName((prevState) => ({
@@ -14,10 +24,72 @@ function Table() {
     }));
   };
 
-  const filtro = planets.filter(
+  const handleSelect = (event) => {
+    const { value, name } = event.target;
+    if (name === 'coluna') {
+      setNumericValues(() => ([{
+
+        column: value,
+        comparison: filterByNumericValues[0].comparison,
+        value: filterByNumericValues[0].value,
+      }]));
+    }
+    if (name === 'condition') {
+      setNumericValues(() => ([{
+        column: filterByNumericValues[0].column,
+        comparison: value,
+        value: filterByNumericValues[0].value,
+      }]));
+    }
+    if (name === 'valor') {
+      setNumericValues(() => ([{
+        column: filterByNumericValues[0].column,
+        comparison: filterByNumericValues[0].comparison,
+        value,
+      }]));
+    }
+  };
+
+  const filterName = planets.filter(
     (planeta) => planeta.name.includes(filterByName.name),
   );
-  console.log(filtro);
+
+  console.log('column', filterByNumericValues[0].column);
+  console.log('comparison', filterByNumericValues[0].comparison);
+  console.log('value', filterByNumericValues[0].value);
+
+  const filterInput = () => {
+    console.log(filterByNumericValues[0].comparison);
+    setView(false);
+    if (filterByNumericValues[0].comparison === 'maior que') {
+      const filterNumeric = filterName.filter(
+        (planeta) => Number(planeta[filterByNumericValues[0].column])
+        > Number(filterByNumericValues[0].value),
+      );
+      console.log('entrei no maior');
+      setAplyFilter(filterNumeric);
+    }
+    if (filterByNumericValues[0].comparison === 'menor que') {
+      const filterNumeric = filterName.filter(
+        (planeta) => Number(planeta[filterByNumericValues[0].column])
+        < Number(filterByNumericValues[0].value),
+      );
+      console.log('entrei no menor');
+      setAplyFilter(filterNumeric);
+    }
+    if (filterByNumericValues[0].comparison === 'igual a') {
+      const filterNumeric = filterName.filter(
+        (planeta) => planeta[filterByNumericValues[0].column]
+        === filterByNumericValues[0].value,
+      );
+      console.log('entrei no igual');
+      setAplyFilter(filterNumeric);
+    }
+  };
+  const colunas = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const condition = ['maior que', 'menor que', 'igual a'];
+  // console.log(filterNumeric);
 
   return (
     <div>
@@ -28,6 +100,44 @@ function Table() {
         value={ filterByName.name }
         onChange={ handleChange }
       />
+      <select
+        data-testid="column-filter"
+        name="coluna"
+        value={ filterByNumericValues[0].column }
+        onChange={ handleSelect }
+      >
+        {
+          colunas.map((valor, key) => (
+            <option key={ key }>{ valor }</option>
+          ))
+        }
+      </select>
+      <select
+        data-testid="comparison-filter"
+        name="condition"
+        value={ filterByNumericValues[0].comparison }
+        onChange={ handleSelect }
+      >
+        {
+          condition.map((valor, key) => (
+            <option key={ key }>{ valor }</option>
+          ))
+        }
+      </select>
+      <input
+        data-testid="value-filter"
+        type="number"
+        name="valor"
+        value={ filterByNumericValues[0].value }
+        onChange={ handleSelect }
+      />
+      <button
+        data-testid="button-filter"
+        type="button"
+        onClick={ filterInput }
+      >
+        Filtrar
+      </button>
       <table border="10">
         <thead>
           <tr>
@@ -46,8 +156,8 @@ function Table() {
             <th>URL</th>
           </tr>
         </thead>
-        {
-          filtro.map((planeta) => (
+        { view
+          ? filterName.map((planeta) => (
             <tbody key={ planeta.name }>
               <tr>
                 <td>{planeta.name}</td>
@@ -66,7 +176,25 @@ function Table() {
               </tr>
             </tbody>
           ))
-        }
+          : aplyFilter.map((planet) => (
+            <tbody key={ planet.name }>
+              <tr>
+                <td>{planet.name}</td>
+                <td>{planet.rotation_period}</td>
+                <td>{planet.orbital_period}</td>
+                <td>{planet.diameter}</td>
+                <td>{planet.climate}</td>
+                <td>{planet.gravity}</td>
+                <td>{planet.terrain}</td>
+                <td>{planet.surface_water}</td>
+                <td>{planet.population}</td>
+                <td>{planet.films}</td>
+                <td>{planet.created}</td>
+                <td>{planet.edited}</td>
+                <td>{planet.url}</td>
+              </tr>
+            </tbody>
+          ))}
       </table>
     </div>
   );
