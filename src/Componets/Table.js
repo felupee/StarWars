@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
@@ -13,8 +13,13 @@ function Table() {
       value: 0,
     },
   ]);
-  const [aplyFilter, setAplyFilter] = useState([]);
+  const [aplyFilter, setAplyFilter] = useState(planets);
   const [view, setView] = useState(true);
+
+  useEffect(() => {
+    setAplyFilter(planets);
+  }, [planets]);
+  console.log(aplyFilter);
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -53,16 +58,15 @@ function Table() {
   const filterName = planets.filter(
     (planeta) => planeta.name.includes(filterByName.name),
   );
-
-  console.log('column', filterByNumericValues[0].column);
-  console.log('comparison', filterByNumericValues[0].comparison);
-  console.log('value', filterByNumericValues[0].value);
+  // console.log('column', filterByNumericValues[0].column);
+  // console.log('comparison', filterByNumericValues[0].comparison);
+  // console.log('value', filterByNumericValues[0].value);
 
   const filterInput = () => {
     console.log(filterByNumericValues[0].comparison);
     setView(false);
     if (filterByNumericValues[0].comparison === 'maior que') {
-      const filterNumeric = filterName.filter(
+      const filterNumeric = aplyFilter.filter(
         (planeta) => Number(planeta[filterByNumericValues[0].column])
         > Number(filterByNumericValues[0].value),
       );
@@ -70,7 +74,7 @@ function Table() {
       setAplyFilter(filterNumeric);
     }
     if (filterByNumericValues[0].comparison === 'menor que') {
-      const filterNumeric = filterName.filter(
+      const filterNumeric = aplyFilter.filter(
         (planeta) => Number(planeta[filterByNumericValues[0].column])
         < Number(filterByNumericValues[0].value),
       );
@@ -78,7 +82,7 @@ function Table() {
       setAplyFilter(filterNumeric);
     }
     if (filterByNumericValues[0].comparison === 'igual a') {
-      const filterNumeric = filterName.filter(
+      const filterNumeric = aplyFilter.filter(
         (planeta) => planeta[filterByNumericValues[0].column]
         === filterByNumericValues[0].value,
       );
@@ -89,7 +93,6 @@ function Table() {
   const colunas = ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   const condition = ['maior que', 'menor que', 'igual a'];
-  // console.log(filterNumeric);
 
   return (
     <div>
