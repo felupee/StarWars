@@ -13,13 +13,14 @@ function Table() {
       value: 0,
     },
   ]);
+  const [colunas, setColunas] = useState(['population',
+  'orbital_period', 'diameter', 'rotation_period', 'surface_water'])
   const [aplyFilter, setAplyFilter] = useState(planets);
   const [view, setView] = useState(true);
 
   useEffect(() => {
     setAplyFilter(planets);
   }, [planets]);
-  console.log(aplyFilter);
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -65,6 +66,8 @@ function Table() {
   const filterInput = () => {
     console.log(filterByNumericValues[0].comparison);
     setView(false);
+    const column = colunas.filter((coluna) => coluna !== filterByNumericValues[0].column);
+    setColunas(column);
     if (filterByNumericValues[0].comparison === 'maior que') {
       const filterNumeric = aplyFilter.filter(
         (planeta) => Number(planeta[filterByNumericValues[0].column])
@@ -90,8 +93,6 @@ function Table() {
       setAplyFilter(filterNumeric);
     }
   };
-  const colunas = ['population',
-    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   const condition = ['maior que', 'menor que', 'igual a'];
 
   return (
