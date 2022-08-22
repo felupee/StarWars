@@ -91,6 +91,12 @@ function Table() {
       console.log('entrei no igual');
       setAplyFilter(filterNumeric);
     }
+    setNumericValues(() => ([{
+
+      column: colunas[0],
+      comparison: filterByNumericValues[0].comparison,
+      value: filterByNumericValues[0].value,
+    }]));
   };
   const condition = ['maior que', 'menor que', 'igual a'];
 
