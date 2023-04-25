@@ -6,7 +6,7 @@ function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
 
   const getPlanets = async () => {
-    const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+    const response = await fetch('https://swapi.dev/api/planets');
     const json = await response.json();
     const planetas = json.results;
     planetas.forEach((item) => {
