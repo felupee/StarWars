@@ -3,7 +3,7 @@
 </p>
 
 
-Olá, seja bem vindo ao repositório do projeto StarWars Planets Search! Aqui você irá aprender como instalar e testar esse projeto na sua máquina, mas caso queira uma explicação mais detalhada sobre o Store Manager e suas funcionalidades, sem precisar baixar e executar o projeto, recomendo você a visitar esse mesmo projeto no meu portifólio clicando [aqui](https://felupee.github.io/front-end/projetos/starWars/starWars.html).
+Olá, seja bem vindo ao repositório do projeto StarWars Planets Search! Aqui você irá aprender como instalar e testar esse projeto na sua máquina, mas caso queira uma explicação mais detalhada sobre o projeto StarWars e suas funcionalidades, sem precisar baixar e executar o projeto, recomendo você a visitar esse mesmo projeto no meu portifólio clicando [aqui](https://felupee.github.io/front-end/projetos/starWars/starWars.html).
 
 ## Habilidades :computer: :rocket: 
 
@@ -25,7 +25,7 @@ Este projeto pode ser executado caso você tenha o node instalado na sua máquin
 
 ### Execução :runner:
 
-- execute o comando `npm start`
+- Execute o comando `npm start`
 
 Isso irá fazer com que abra uma guia no seu navegador padrão.
 
