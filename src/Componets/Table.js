@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import './Table.css';
 
 function Table() {
   const { planets } = useContext(PlanetsContext);
@@ -59,10 +60,6 @@ function Table() {
   const filterName = planets.filter(
     (planeta) => planeta.name.includes(filterByName.name),
   );
-  // console.log('column', filterByNumericValues[0].column);
-  // console.log('comparison', filterByNumericValues[0].comparison);
-  // console.log('value', filterByNumericValues[0].value);
-
   const filterInput = () => {
     setView(false);
     const column = colunas.filter((coluna) => coluna !== filterByNumericValues[0].column);
@@ -101,53 +98,55 @@ function Table() {
   const condition = ['maior que', 'menor que', 'igual a'];
 
   return (
-    <div>
-      <input
-        data-testid="name-filter"
-        type="text"
-        name="pesquisa"
-        value={ filterByName.name }
-        onChange={ handleChange }
-      />
-      <select
-        data-testid="column-filter"
-        name="coluna"
-        value={ filterByNumericValues[0].column }
-        onChange={ handleSelect }
-      >
-        {
-          colunas.map((valor, key) => (
-            <option key={ key }>{ valor }</option>
-          ))
-        }
-      </select>
-      <select
-        data-testid="comparison-filter"
-        name="condition"
-        value={ filterByNumericValues[0].comparison }
-        onChange={ handleSelect }
-      >
-        {
-          condition.map((valor, key) => (
-            <option key={ key }>{ valor }</option>
-          ))
-        }
-      </select>
-      <input
-        data-testid="value-filter"
-        type="number"
-        name="valor"
-        value={ filterByNumericValues[0].value }
-        onChange={ handleSelect }
-      />
-      <button
-        data-testid="button-filter"
-        type="button"
-        onClick={ filterInput }
-      >
-        Filtrar
-      </button>
-      <table border="10">
+    <div className="container">
+      <div className="input-container">
+        <input
+          data-testid="name-filter"
+          type="text"
+          name="pesquisa"
+          value={ filterByName.name }
+          onChange={ handleChange }
+        />
+        <select
+          data-testid="column-filter"
+          name="coluna"
+          value={ filterByNumericValues[0].column }
+          onChange={ handleSelect }
+        >
+          {
+            colunas.map((valor, key) => (
+              <option key={ key }>{ valor }</option>
+            ))
+          }
+        </select>
+        <select
+          data-testid="comparison-filter"
+          name="condition"
+          value={ filterByNumericValues[0].comparison }
+          onChange={ handleSelect }
+        >
+          {
+            condition.map((valor, key) => (
+              <option key={ key }>{ valor }</option>
+            ))
+          }
+        </select>
+        <input
+          data-testid="value-filter"
+          type="number"
+          name="valor"
+          value={ filterByNumericValues[0].value }
+          onChange={ handleSelect }
+        />
+        <button
+          data-testid="button-filter"
+          type="button"
+          onClick={ filterInput }
+        >
+          Filtrar
+        </button>
+      </div>
+      <table>
         <thead>
           <tr>
             <th>Name</th>
